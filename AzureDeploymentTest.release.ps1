@@ -32,15 +32,11 @@ $NuspecData = (
 )
 Out-File -FilePath ".\src\$ProjectName.nuspec" -InputObject $NuspecData
 
-# Set up Nuget
-nuget sources Add -Name "AzureArtifacts" -Source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json"
-nuget setapikey $AzureArtifactsPat -Source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json"
-
 # Publish Module
 $NuspecPath = ".\src\$ProjectName.nuspec"
 nuget pack $NuspecPath
-Move-Item .\src\*.nupkg ".\src\$ProjectName.nupkg"
-nuget push -Source "AzureArtifacts" ".\src\$ProjectName.nupkg"
+Move-Item ".\src\*.nupkg" ".\src\$ProjectName.nupkg"
+nuget push ".\src\$ProjectName.nupkg" -Source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json" -ApiKey $AzureArtifactsPat
 
 # Clean up
 Remove-Item ".\src\*.nupkg"
