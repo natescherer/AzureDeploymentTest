@@ -6,26 +6,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Support for macOS
-
-### Changed
-- Building/releasing changed from AppVeyor to Azure Pipelines
-
-### Fixed
-- Version comparison check in Update-Changelog required .NET System.Version; check has been removed to support any versioning scheme
-
-## [2.0.0] - 2019-01-28
-### Changed
-- Update-Changelog -LinkMode Automatic now uses a -LinkPattern parameter (replacing -LinkBase and -ReleasePrefix) which can support any VCS
-
-## [1.0.0] - 2018-10-20
-### Added
-- Get-ChangelogData cmdlet
-- Add-ChangelogData cmdlet
-- New-Changelog cmdlet
-- Update-Changelog cmdlet
-- Convertfrom-Changelog cmdlet
-
-[Unreleased]: https://github.com/natescherer/ChangelogManagement/compare/v2.0.0..HEAD
-[2.0.0]: https://github.com/natescherer/ChangelogManagement/compare/v1.0.0..v2.0.0
-[1.0.0]: https://github.com/natescherer/ChangelogManagement/tree/v1.0.0
+- Initial Release
