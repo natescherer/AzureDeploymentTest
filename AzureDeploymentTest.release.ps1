@@ -30,16 +30,11 @@ $NuspecData = (
     "</metadata>$NL" +
     "</package>"
 )
-Out-File -FilePath ".\src\$ProjectName.nuspec" -InputObject $NuspecData
+Out-File -FilePath ".\out\$ProjectName\$ProjectName.nuspec" -InputObject $NuspecData
 
 # Publish Module
-$NuspecPath = ".\src\$ProjectName.nuspec"
-nuget pack $NuspecPath
-Move-Item ".\src\*.nupkg" ".\src\$ProjectName.nupkg"
-Get-ChildItem -Recurse
+$NuspecPath = ".\out\$ProjectName\$ProjectName.nuspec"
+nuget pack $NuspecPath -OutputDirectory ".\out\$ProjectName"
+Move-Item ".\out\$ProjectName\*.nupkg" ".\out\$ProjectName\$ProjectName.nupkg"
 nuget sources add -name "AzureArtifacts" -source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json" -username user -password $AzureArtifactsPat
-nuget push "$PSScriptRoot\src\$ProjectName.nupkg" -Source "AzureArtifacts" -ApiKey $AzureArtifactsPat
-
-# Clean up
-Remove-Item ".\src\*.nupkg"
-Remove-Item ".\src\*.nuspec"
+nuget push ".\out\$ProjectName\$ProjectName.nupkg" -Source "AzureArtifacts" -ApiKey $AzureArtifactsPat
