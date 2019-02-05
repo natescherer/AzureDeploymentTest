@@ -1,4 +1,4 @@
-#Requires -Modules InvokeBuild, platyPs, MarkdownToHtml, AzureDeploymentTest, BuildHelpers
+#Requires -Modules InvokeBuild, platyPs, MarkdownToHtml, ChangelogManagement, BuildHelpers
 
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "", Justification="This erroneously triggers on Invoke-Build scripts.")]
 [CmdletBinding()]
