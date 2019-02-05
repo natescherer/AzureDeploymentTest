@@ -3,6 +3,9 @@ param (
     [parameter(Mandatory = $true)]
     [string]$AzureArtifactsPat
 )
+
+Set-Location $PSScriptRoot
+
 Install-Module -Name BuildHelpers -Force -SkipPublisherCheck
 $ProjectName = Get-ProjectName
 
