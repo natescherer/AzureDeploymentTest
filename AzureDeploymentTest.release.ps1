@@ -38,7 +38,7 @@ nuget setapikey $AzureArtifactsPat -Source "https://pkgs.dev.azure.com/natescher
 
 # Publish Module
 $NuspecPath = ".\src\$ProjectName.nuspec"
-nuget pack .\src\$NuspecPath
+nuget pack $NuspecPath
 Move-Item .\src\*.nupkg ".\src\$ProjectName.nupkg"
 nuget push -Source "AzureArtifacts" ".\src\$ProjectName.nupkg"
 
