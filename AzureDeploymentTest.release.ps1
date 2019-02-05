@@ -1,3 +1,9 @@
+[CmdletBinding()]
+param (
+    [parameter(Mandatory = $true)]
+    [string]$AzureArtifactsPat
+)
+Install-Module -Name BuildHelpers -Force -SkipPublisherCheck
 $ProjectName = Get-ProjectName
 
 # Create Nuspec
@@ -25,7 +31,7 @@ Out-File -FilePath ".\src\$ProjectName.nuspec" -InputObject $NuspecData
 
 # Set up Nuget
 nuget sources Add -Name "AzureArtifacts" -Source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json"
-nuget setapikey $env:AZUREARTIFACTSPAT -Source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json"
+nuget setapikey $AzureArtifactsPat -Source "https://pkgs.dev.azure.com/natescherer/_packaging/NuGetFeed/nuget/v3/index.json"
 
 # Publish Module
 $NuspecPath = ".\src\$ProjectName.nuspec"
