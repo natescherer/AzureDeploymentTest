@@ -119,4 +119,13 @@ if ($Mode -eq "Prod") {
         Write-Output $ReleaseResult
         throw "There was a problem releasing"
     }
+
+    # Push code back to GitHub
+    Add-Content "$env:USERPROFILE\.git-credentials" "https://$($GitHubPat):x-oauth-basic@github.com`n"
+    git checkout master --quiet
+    git add --all
+    git status
+    git commit -s -m "Azure Pipelines Release: $FullVersion"
+    git tag -a v$($FullVersion) -m v$($FullVersion)
+    git push origin master --porcelain
 }
