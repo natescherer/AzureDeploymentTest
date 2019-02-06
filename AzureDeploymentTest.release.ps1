@@ -12,12 +12,16 @@ $ProjectName = Get-ProjectName
 # Create Nuspec
 $NL = [System.Environment]::NewLine
 $ManifestData = Import-PowerShellDataFile .\src\*.psd1
+$FullVersion = $ManifestData.ModuleVersion
+if ($ManifestData.PrivateData.PSData.Prerelease) {
+    $FullVersion += "-" + $ManifestData.PrivateData.PSData.Prerelease
+}
 $NuspecData = (
     "<?xml version=`"1.0`"?>$NL" +
-    "<package >$NL" +
+    "<package xmlns=`"http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd`">$NL" +
     "<metadata>$NL" +
     "<id>$($ManifestData.RootModule.Split('.')[0])</id>$NL" +
-    "<version>$($ManifestData.ModuleVersion)</version>$NL" +
+    "<version>$FullVersion</version>$NL" +
     "<authors>$($ManifestData.Author)</authors>$NL" +
     "<owners>$($ManifestData.Author)</owners>$NL" +
     "<requireLicenseAcceptance>false</requireLicenseAcceptance>$NL" +
