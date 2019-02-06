@@ -1,28 +1,23 @@
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName = "Dev")]
 param (
-    [parameter(Mandatory = $true)]
-    [parameter(ParameterSetName = "Dev")]
-    [parameter(ParameterSetName = "Prod")]
+    [parameter(ParameterSetName = "Dev", Mandatory = $true)]
+    [parameter(ParameterSetName = "Prod", Mandatory = $true)]
     [ValidateSet("Dev","Prod")]
     [string]$Mode,
 
-    [parameter(Mandatory = $true)]
-    [parameter(ParameterSetName = "Dev")]
+    [parameter(ParameterSetName = "Dev", Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
     [string]$AzureArtifactsPat,
 
-    [parameter(Mandatory = $true)]
-    [parameter(ParameterSetName = "Prod")]
+    [parameter(ParameterSetName = "Prod", Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
     [string]$GitHubUser,
 
-    [parameter(Mandatory = $true)]
-    [parameter(ParameterSetName = "Prod")]
+    [parameter(ParameterSetName = "Prod", Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
     [string]$GitHubRepo,
 
-    [parameter(Mandatory = $true)]
-    [parameter(ParameterSetName = "Prod")]
+    [parameter(ParameterSetName = "Prod", Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
     [string]$GitHubPat 
 )
