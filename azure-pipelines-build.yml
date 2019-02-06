@@ -59,9 +59,24 @@ jobs:
     inputs:
       pwsh: ${{ parameters.pwsh }}
       targetType: inline
+      arguments: -AccessToken $(System.AccessToken)
       script: |
-        if ($env:BUILD_SOURCEVERSIONMESSAGE -like "!Deploy*") {$ReleaseVersion = $env:BUILD_SOURCEVERSIONMESSAGE.split(" ")[1]}
-        if ($env:BUILD_SOURCEVERSIONMESSAGE -notlike "!Deploy*") {
+        param (
+          [parameter(Mandatory=$true)]
+          [string]$AccessToken
+        )
+        if ($env:BUILD_SOURCEVERSIONMESSAGE -like "!ReleaseToProd*") {
+          $ReleaseVersion = $env:BUILD_SOURCEVERSIONMESSAGE.split(" ")[1]
+          $TagSplat = @{
+            Uri = "$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/build/builds/$env:BUILD_/tags/ReleaseToProd?api-version=5.0"
+            Headers = @{
+              Authorization = "Bearer $AccessToken"
+            }
+            Method = "Put"
+          }
+          Invoke-RestMethod @TagSplat
+        }
+        if ($env:BUILD_SOURCEVERSIONMESSAGE -notlike "!ReleaseToProd*") {
           $ReleaseVersion = $env:NEXTVER + "-alpha" + $env:BUILD_BUILDNUMBER
           Write-Host "`$ReleaseVersion is $ReleaseVersion"
           Write-Host "##vso[task.setvariable variable=releaseVersion]$ReleaseVersion"
