@@ -11,6 +11,14 @@ param (
 
     [parameter(ParameterSetName = "Prod", Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
+    [string]$GitName,
+
+    [parameter(ParameterSetName = "Prod", Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$GitEmail,   
+
+    [parameter(ParameterSetName = "Prod", Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
     [string]$GitHubUser,
 
     [parameter(ParameterSetName = "Prod", Mandatory = $true)]
@@ -122,6 +130,8 @@ if ($Mode -eq "Prod") {
 
     # Push code back to GitHub
     Add-Content "$env:USERPROFILE\.git-credentials" "https://$($GitHubPat):x-oauth-basic@github.com`n"
+    git config user.name $GitName
+    git config user.email $GitEmail
     git checkout master --quiet
     git add --all
     git status
