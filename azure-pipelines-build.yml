@@ -62,10 +62,10 @@ jobs:
       pwsh: ${{ parameters.pwsh }}
       targetType: inline
       script: |
+        $Uri = "$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/build/builds/$env:BUILD_/tags/ReleaseToProd?api-version=5.0"
+        Write-Host $Uri
         if ($env:BUILD_SOURCEVERSIONMESSAGE -like "!ReleaseToProd*") {
           $ReleaseVersion = $env:BUILD_SOURCEVERSIONMESSAGE.split(" ")[1]
-          $Uri = "$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/build/builds/$env:BUILD_/tags/ReleaseToProd?api-version=5.0"
-          Write-Host $Uri
           $TagSplat = @{
             Uri = "$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/build/builds/$env:BUILD_/tags/ReleaseToProd?api-version=5.0"
             Headers = @{
