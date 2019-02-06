@@ -8,22 +8,22 @@ param (
 
     [parameter(Mandatory = $true)]
     [parameter(ParameterSetName = "Dev")]
-    [ValidateNotNullOrEmpty]
+    [ValidateNotNullOrEmpty()]
     [string]$AzureArtifactsPat,
 
     [parameter(Mandatory = $true)]
     [parameter(ParameterSetName = "Prod")]
-    [ValidateNotNullOrEmpty]
+    [ValidateNotNullOrEmpty()]
     [string]$GitHubUser,
 
     [parameter(Mandatory = $true)]
     [parameter(ParameterSetName = "Prod")]
-    [ValidateNotNullOrEmpty]
+    [ValidateNotNullOrEmpty()]
     [string]$GitHubRepo,
 
     [parameter(Mandatory = $true)]
     [parameter(ParameterSetName = "Prod")]
-    [ValidateNotNullOrEmpty]
+    [ValidateNotNullOrEmpty()]
     [string]$GitHubPat 
 )
 
