@@ -56,21 +56,18 @@ jobs:
 
   - task: PowerShell@2
     displayName: Invoke-Build
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     inputs:
       pwsh: ${{ parameters.pwsh }}
       targetType: inline
-      arguments: -AccessToken $(System.AccessToken)
       script: |
-        param (
-          [parameter(Mandatory=$true)]
-          [string]$AccessToken
-        )
         if ($env:BUILD_SOURCEVERSIONMESSAGE -like "!ReleaseToProd*") {
           $ReleaseVersion = $env:BUILD_SOURCEVERSIONMESSAGE.split(" ")[1]
           $TagSplat = @{
             Uri = "$($env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$env:SYSTEM_TEAMPROJECTID/_apis/build/builds/$env:BUILD_/tags/ReleaseToProd?api-version=5.0"
             Headers = @{
-              Authorization = "Bearer $AccessToken"
+              Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"
             }
             Method = "Put"
           }
