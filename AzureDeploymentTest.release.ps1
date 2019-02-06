@@ -17,8 +17,10 @@ $RegisterSplat = @{
 }
 Register-PSRepository @RegisterSplat
 
+$PublishCredential = New-Object System.Management.Automation.PSCredential("user", (ConvertTo-SecureString $AzureArtifactsPat -AsPlainText -Force))
 $PublishSplat = @{
     Repository = "AzureArtifacts"
+    Credential = $PublishCredential
     Path = "$PSScriptRoot\out\$ProjectName"
     NuGetApiKey = $AzureArtifactsPat
     ErrorAction = "Stop"
