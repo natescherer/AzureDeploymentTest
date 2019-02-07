@@ -72,7 +72,7 @@ if ($Mode -eq "Dev") {
 
 if ($Mode -eq "Prod") {
     $ChangelogData = Get-ChangelogData
-    if ($ChangelogData.Unreleased.Data.Added -eq "BLOCKED DEPLOYMENT TO PROD") {
+    if ($ChangelogData.Unreleased.Data.Added[0] -like "*BLOCKED DEPLOYMENT TO PROD*") {
         throw "Changelog doesn't contain any real data. Blocking deployment to production."
     }
 
