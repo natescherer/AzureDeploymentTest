@@ -17,11 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.2.5] - 2019-02-07
+### Added
+- BLOCKED DEPLOYMENT TO PROD
+
 ## [0.2.3] - 2019-02-07
 ### Added
 - Dummy Data
 - GitHub releasing
 - Initial Release
 
-[Unreleased]: https://github.com/natescherer/AzureDeploymentTest/compare/v0.2.3..HEAD
+[Unreleased]: https://github.com/natescherer/AzureDeploymentTest/compare/v0.2.5..HEAD
+[0.2.5]: https://github.com/natescherer/AzureDeploymentTest/compare/v0.2.3..v0.2.5
 [0.2.3]: https://github.com/natescherer/AzureDeploymentTest/tree/v0.2.3

@@ -12,7 +12,7 @@
 RootModule = 'AzureDeploymentTest.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.2.3'
+ModuleVersion = '0.2.5'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -110,9 +110,7 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = '### Added
-- Dummy Data
-- GitHub releasing
-- Initial Release'
+- BLOCKED DEPLOYMENT TO PROD'
 
         # Prerelease string of this module
         # Prerelease = ''
