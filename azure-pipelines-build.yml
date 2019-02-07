@@ -67,8 +67,8 @@ jobs:
         if ($env:BUILD_SOURCEVERSIONMESSAGE -notlike "!ReleaseToProd*") {
           $ManifestVersion = (Import-PowerShellDataFile .\src\*.psd1).ModuleVersion
           if ((Get-ChangelogData).Released -ne $null) { $AlphaVersionBase = Step-Version $ManifestVersion }
-          if ((Get-ChangelogData).Released -eq $null) { $AlphaVersionBase = $ManifestVersion }   
-          $ReleaseVersion = $AlphaVersionBase + "-alpha" + $env:BUILD_BUILDNUMBER
+          if ((Get-ChangelogData).Released -eq $null) { $AlphaVersionBase = $ManifestVersion }
+          $ReleaseVersion = $AlphaVersionBase + "-alpha" + ([int]$env:BUILD_BUILDNUMBER).ToString("0000")
           Write-Host "`$ReleaseVersion is $ReleaseVersion"
           Write-Host "##vso[task.setvariable variable=releaseVersion]$ReleaseVersion"
         }
