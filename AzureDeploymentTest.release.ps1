@@ -34,16 +34,11 @@ $NL = [System.Environment]::NewLine
 Set-Location $PSScriptRoot
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-Install-Module -Name BuildHelpers -Force -SkipPublisherCheck
+Install-Module -Name BuildHelpers,ChangelogManagement -Force -SkipPublisherCheck
 $ProjectName = Get-ProjectName
 $ManifestData = Import-PowerShellDataFile .\src\*.psd1
 $FullVersion = $ManifestData.ModuleVersion
 if ($ManifestData.PrivateData.PSData.Prerelease) { $FullVersion += "-" + $ManifestData.PrivateData.PSData.Prerelease }
-
-$ChangelogData = Get-ChangelogData
-if ($ChangelogData.Unreleased.Data.Added -eq "BLOCKED DEPLOYMENT TO PROD") {
-    throw "Changelog doesn't contain any real data. Blocking deployment to production."
-}
 
 if ($Mode -eq "Dev") {
     $NewReleaseName = $env:RELEASE_RELEASENAME + "_dev"
@@ -79,6 +74,11 @@ if ($Mode -eq "Dev") {
 }
 
 if ($Mode -eq "Prod") {
+    $ChangelogData = Get-ChangelogData
+    if ($ChangelogData.Unreleased.Data.Added -eq "BLOCKED DEPLOYMENT TO PROD") {
+        throw "Changelog doesn't contain any real data. Blocking deployment to production."
+    }
+
     $NewReleaseName = $env:RELEASE_RELEASENAME + "_prod"
     Write-Host "##vso[build.updatereleasename]$NewReleaseName"
 
