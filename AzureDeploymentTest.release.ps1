@@ -40,6 +40,11 @@ $ManifestData = Import-PowerShellDataFile .\src\*.psd1
 $FullVersion = $ManifestData.ModuleVersion
 if ($ManifestData.PrivateData.PSData.Prerelease) { $FullVersion += "-" + $ManifestData.PrivateData.PSData.Prerelease }
 
+$ChangelogData = Get-ChangelogData
+if ($ChangelogData.Unreleased.Data.Added -eq "BLOCKED DEPLOYMENT TO PROD") {
+    throw "Changelog doesn't contain any real data. Blocking deployment to production."
+}
+
 if ($Mode -eq "Dev") {
     $NewReleaseName = $env:RELEASE_RELEASENAME + "_dev"
     Write-Host "##vso[build.updatereleasename]$NewReleaseName"

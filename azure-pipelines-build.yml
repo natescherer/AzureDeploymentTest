@@ -48,10 +48,8 @@ jobs:
       pwsh: ${{ parameters.pwsh }}
       targetType: inline
       script: |
-        $ProjectName = $env:BUILD_REPOSITORY_NAME.split("/")[1]
+        $ProjectName = Get-ProjectName
         Write-Host "##vso[task.setvariable variable=projectName]$ProjectName"
-        $NextVer = Get-NextNugetPackageVersion -Name $ProjectName
-        Write-Host "##vso[task.setvariable variable=nextVer]$NextVer"
         Write-Host "##vso[task.setvariable variable=psEdition]$PSEdition"
 
   - task: PowerShell@2
@@ -76,7 +74,10 @@ jobs:
           Invoke-RestMethod @TagSplat
         }
         if ($env:BUILD_SOURCEVERSIONMESSAGE -notlike "!ReleaseToProd*") {
-          $ReleaseVersion = $env:NEXTVER + "-alpha" + $env:BUILD_BUILDNUMBER
+          $ManifestVersion = (Import-PowerShellDataFile .\src\*.psd1).ModuleVersion 
+          if ((Get-ChangelogData).Released -ne $null) { $AlphaVersionBase = Step-Version $ManifestVersion }
+          if ((Get-ChangelogData).Released -ne $null) { $AlphaVersionBase = $ManifestVersion }   
+          $ReleaseVersion = $AlphaVersionBase + "-alpha" + $env:BUILD_BUILDNUMBER
           Write-Host "`$ReleaseVersion is $ReleaseVersion"
           Write-Host "##vso[task.setvariable variable=releaseVersion]$ReleaseVersion"
         }
