@@ -41,6 +41,9 @@ $FullVersion = $ManifestData.ModuleVersion
 if ($ManifestData.PrivateData.PSData.Prerelease) { $FullVersion += "-" + $ManifestData.PrivateData.PSData.Prerelease }
 
 if ($Mode -eq "Dev") {
+    $NewReleaseName = $env:RELEASE_RELEASENAME + "_dev"
+    Write-Host "##vso[build.updatereleasename]$NewReleaseName"
+
     # Create Nuspec
     $NuspecData = (
         "<?xml version=`"1.0`"?>$NL" +
@@ -71,6 +74,9 @@ if ($Mode -eq "Dev") {
 }
 
 if ($Mode -eq "Prod") {
+    $NewReleaseName = $env:RELEASE_RELEASENAME + "_prod"
+    Write-Host "##vso[build.updatereleasename]$NewReleaseName"
+
     # Create GitHub Release
     $Zip = Get-ChildItem "out\$ProjectName*.zip"
 
@@ -130,19 +136,11 @@ if ($Mode -eq "Prod") {
 
     # Push code back to GitHub
     git config user.name $GitName
-    Write-Host "1"
     git config user.email $GitEmail
-    Write-Host "2"
     git checkout master --quiet
-    Write-Host "3"
     git add --all
-    Write-Host "4"
     git status
-    Write-Host "5"
     git commit -s -m "Azure Pipelines Release: $FullVersion ***NO_CI***"
-    Write-Host "6"
     git tag -a v$($FullVersion) -m v$($FullVersion)
-    Write-Host "7"
     git push https://$GitHubPat@github.com/$GitHubUser/$($GitHubRepo).git
-    Write-Host "8"
 }
