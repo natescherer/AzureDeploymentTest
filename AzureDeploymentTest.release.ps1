@@ -41,9 +41,6 @@ $FullVersion = $ManifestData.ModuleVersion
 if ($ManifestData.PrivateData.PSData.Prerelease) { $FullVersion += "-" + $ManifestData.PrivateData.PSData.Prerelease }
 
 if ($Mode -eq "Dev") {
-    $NewReleaseName = $env:RELEASE_RELEASENAME + "_dev"
-    Write-Host "##vso[build.updatereleasename]$NewReleaseName"
-
     # Create Nuspec
     $NuspecData = (
         "<?xml version=`"1.0`"?>$NL" +
@@ -78,9 +75,6 @@ if ($Mode -eq "Prod") {
     if ($ChangelogData.Unreleased.Data.Added -eq "BLOCKED DEPLOYMENT TO PROD") {
         throw "Changelog doesn't contain any real data. Blocking deployment to production."
     }
-
-    $NewReleaseName = $env:RELEASE_RELEASENAME + "_prod"
-    Write-Host "##vso[build.updatereleasename]$NewReleaseName"
 
     # Create GitHub Release
     $Zip = Get-ChildItem "out\$ProjectName*.zip"
