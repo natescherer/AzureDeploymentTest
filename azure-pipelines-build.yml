@@ -24,6 +24,7 @@ jobs:
         Write-Host "Build.SourceVersionMessage = $env:BUILD_SOURCEVERSIONMESSAGE"
         Write-Host "Build.Repository.Name = $env:BUILD_REPOSITORY_NAME"
         Write-Host "Build.BuildNumber = $env:BUILD_BUILDNUMBER"
+        Write-Host "Current Location = $(Get-Location)"
 
   - task: PowerShell@2
     displayName: Install-Module
@@ -64,9 +65,9 @@ jobs:
           Invoke-RestMethod @TagSplat
         }
         if ($env:BUILD_SOURCEVERSIONMESSAGE -notlike "!ReleaseToProd*") {
-          $ManifestVersion = (Import-PowerShellDataFile .\src\*.psd1).ModuleVersion 
+          $ManifestVersion = (Import-PowerShellDataFile .\src\*.psd1).ModuleVersion
           if ((Get-ChangelogData).Released -ne $null) { $AlphaVersionBase = Step-Version $ManifestVersion }
-          if ((Get-ChangelogData).Released -ne $null) { $AlphaVersionBase = $ManifestVersion }   
+          if ((Get-ChangelogData).Released -eq $null) { $AlphaVersionBase = $ManifestVersion }   
           $ReleaseVersion = $AlphaVersionBase + "-alpha" + $env:BUILD_BUILDNUMBER
           Write-Host "`$ReleaseVersion is $ReleaseVersion"
           Write-Host "##vso[task.setvariable variable=releaseVersion]$ReleaseVersion"
