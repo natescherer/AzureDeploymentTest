@@ -131,11 +131,19 @@ if ($Mode -eq "Prod") {
     # Push code back to GitHub
     Add-Content "$env:USERPROFILE\.git-credentials" "https://$($GitHubPat):x-oauth-basic@github.com`n"
     git config user.name $GitName
+    Write-Host "1"
     git config user.email $GitEmail
+    Write-Host "2"
     git checkout master --quiet
+    Write-Host "3"
     git add --all
+    Write-Host "4"
     git status
+    Write-Host "5"
     git commit -s -m "Azure Pipelines Release: $FullVersion"
+    Write-Host "6"
     git tag -a v$($FullVersion) -m v$($FullVersion)
-    git push origin master --porcelain
+    Write-Host "7"
+    git push origin master
+    Write-Host "7"
 }
